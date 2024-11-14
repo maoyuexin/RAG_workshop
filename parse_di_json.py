@@ -40,8 +40,7 @@ def table_to_html(table):
 # Please update the function name/signature per need
  
 def pdf_parsing_Doc_intelligence(form_recognizer_results):
-    credential = AzureKeyCredential(os.environ["FORM_RECOGNIZER_KEY"])
-     
+      
     for page_num, page in enumerate(form_recognizer_results['pages']):
         tables_on_page = [table for table in form_recognizer_results['tables'] if table['tables']['bounding_regions'][0]["page_number"] == page_num + 1]
 
