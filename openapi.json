@@ -1,0 +1,493 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Agent API",
+        "description": "\nThis is an API for configuring and calling agent and multi-agent service.\n",
+        "version": "0.1.0"
+    },
+    "servers": [
+        {
+            "url": "https://aca-sk-multi-agent.icywater-faf3b9c7.eastus.azurecontainerapps.io/api"
+        }
+    ],
+    "paths": {
+        "/chat_single_agent_sk": {
+            "post": {
+                "summary": "Chat Single Agent",
+                "operationId": "chat_single_agent_chat_single_agent_sk_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChatRequestSingleAgent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChatResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/chat_multi_agents_sk": {
+            "post": {
+                "summary": "Chat Multi Agent",
+                "operationId": "chat_multi_agent_chat_multi_agents_sk_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChatRequestMultipleAgent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChatResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/create_ai_agent_bing": {
+            "post": {
+                "summary": "Create Ai Agent Bing",
+                "operationId": "create_ai_agent_bing_create_ai_agent_bing_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateAgentRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateAgentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/create_ai_agent_custom": {
+            "post": {
+                "summary": "Chat Single Agent",
+                "operationId": "chat_single_agent_create_ai_agent_custom_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateAgentRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateAgentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ChatHistory": {
+                "properties": {
+                    "content": {
+                        "type": "string",
+                        "title": "Content"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "role": {
+                        "type": "string",
+                        "title": "Role"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "content",
+                    "name",
+                    "role"
+                ],
+                "title": "ChatHistory"
+            },
+            "ChatHistoryInput": {
+                "properties": {
+                    "question": {
+                        "type": "string",
+                        "title": "Question"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "question"
+                ],
+                "title": "ChatHistoryInput"
+            },
+            "ChatHistoryOutput": {
+                "properties": {
+                    "answer": {
+                        "type": "string",
+                        "title": "Answer"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "answer"
+                ],
+                "title": "ChatHistoryOutput"
+            },
+            "ChatRequestMultipleAgent": {
+                "properties": {
+                    "question": {
+                        "type": "string",
+                        "title": "Question"
+                    },
+                    "chatHistory": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "$ref": "#/components/schemas/SingleChatHistory"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Chathistory",
+                        "default": []
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "question"
+                ],
+                "title": "ChatRequestMultipleAgent"
+            },
+            "ChatRequestSingleAgent": {
+                "properties": {
+                    "question": {
+                        "type": "string",
+                        "title": "Question"
+                    },
+                    "agent_id": {
+                        "type": "string",
+                        "title": "Agent Id"
+                    },
+                    "thread_id": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Thread Id"
+                    },
+                    "tool_name": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Tool Name",
+                        "default": []
+                    },
+                    "chatHistory": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "$ref": "#/components/schemas/SingleChatHistory"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Chathistory",
+                        "default": []
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "question",
+                    "agent_id"
+                ],
+                "title": "ChatRequestSingleAgent"
+            },
+            "ChatResponse": {
+                "properties": {
+                    "content": {
+                        "type": "string",
+                        "title": "Content"
+                    },
+                    "chatHistory": {
+                        "items": {
+                            "$ref": "#/components/schemas/ChatHistory"
+                        },
+                        "type": "array",
+                        "title": "Chathistory"
+                    },
+                    "followupQuestions": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Followupquestions"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "content",
+                    "chatHistory"
+                ],
+                "title": "ChatResponse"
+            },
+            "CreateAgentRequest": {
+                "properties": {
+                    "agent_name": {
+                        "type": "string",
+                        "title": "Agent Name"
+                    },
+                    "instructions": {
+                        "type": "string",
+                        "title": "Instructions"
+                    },
+                    "toolset": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "additionalProperties": true,
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Toolset"
+                    },
+                    "code_gen_method": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Code Gen Method"
+                    },
+                    "agent_description": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Agent Description"
+                    },
+                    "agent_instructions": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Agent Instructions"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "agent_name",
+                    "instructions"
+                ],
+                "title": "CreateAgentRequest"
+            },
+            "CreateAgentResponse": {
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "title": "Status"
+                    },
+                    "agent_name": {
+                        "type": "string",
+                        "title": "Agent Name"
+                    },
+                    "agent_id": {
+                        "type": "string",
+                        "title": "Agent Id"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "status",
+                    "agent_name",
+                    "agent_id"
+                ],
+                "title": "CreateAgentResponse"
+            },
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "SingleChatHistory": {
+                "properties": {
+                    "inputs": {
+                        "$ref": "#/components/schemas/ChatHistoryInput"
+                    },
+                    "outputs": {
+                        "$ref": "#/components/schemas/ChatHistoryOutput"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "inputs",
+                    "outputs"
+                ],
+                "title": "SingleChatHistory"
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "title": "ValidationError"
+            }
+        }
+    }
+}
